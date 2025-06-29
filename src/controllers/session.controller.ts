@@ -16,7 +16,9 @@ export const getSessionsHandler = async (
         const sessions = await getAllSessions();
         return reply.send(sessions);
     } catch (err) {
-        return reply.code(500).send({ error: "Error fetching sessions" });
+        return reply
+            .code(500)
+            .send({ error: "Error fetching sessions: " + err });
     }
 };
 
@@ -34,7 +36,9 @@ export const getSessionByUserIdHandler = async (
             return reply.code(404).send({ error: "Session not found" });
         }
     } catch (err) {
-        return reply.code(500).send({ error: "Error fetching session" });
+        return reply
+            .code(500)
+            .send({ error: "Error fetching session: " + err });
     }
 };
 
@@ -48,7 +52,10 @@ export const createSessionHandler = async (
         const session = await createSession(sessionData);
         return reply.code(201).send(session);
     } catch (err) {
-        return reply.code(400).send({ error: "Error creating session" });
+        console.error("Error creating session:", err);
+        return reply
+            .code(400)
+            .send({ error: "Error creating session: " + err });
     }
 };
 
@@ -62,6 +69,6 @@ export const deleteSessionHandler = async (
         await deleteSession(UserId);
         return reply.code(204).send();
     } catch (err) {
-        return reply.code(404).send({ error: "Session not found" });
+        return reply.code(404).send({ error: "Session not found: " + err });
     }
 };

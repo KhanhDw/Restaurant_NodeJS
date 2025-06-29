@@ -6,6 +6,7 @@ export type SessionCreateData = {
     userId: number;
     sessionToken: string;
     expiresAt: Date;
+    createAt: Date;
 };
 
 // Lấy tất cả sessions

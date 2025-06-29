@@ -24,11 +24,12 @@ export const addUser = async (req: FastifyRequest, reply: FastifyReply) => {
 };
 
 export const getUser = async (
-    req: FastifyRequest<{ Params: { id: number } }>,
+    req: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
 ) => {
     const { id } = req.params;
-    const user = await getUserById(id);
+    const userId = parseInt(id, 10);
+    const user = await getUserById(userId);
     if (user) {
         return reply.send(user);
     } else {
@@ -38,15 +39,16 @@ export const getUser = async (
 
 export const updateUserHandler = async (
     req: FastifyRequest<{
-        Params: { id: number };
+        Params: { id: string };
         Body: { name?: string; email?: string };
     }>,
     reply: FastifyReply
 ) => {
     const { id } = req.params;
+    const userId = parseInt(id, 10);
     const userData = req.body;
     try {
-        const updatedUser = await updateUser(id, userData);
+        const updatedUser = await updateUser(userId, userData);
         return reply.send(updatedUser);
     } catch (err) {
         return reply.code(400).send({ error: "Error updating user" });
@@ -54,12 +56,13 @@ export const updateUserHandler = async (
 };
 
 export const deleteUserHandler = async (
-    req: FastifyRequest<{ Params: { id: number } }>,
+    req: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
 ) => {
     const { id } = req.params;
+    const userId = parseInt(id, 10);
     try {
-        await deleteUser(id);
+        await deleteUser(userId);
         return reply.code(204).send();
     } catch (err) {
         return reply.code(404).send({ error: "User not found" });
