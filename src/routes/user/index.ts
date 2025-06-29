@@ -5,7 +5,7 @@ import {
     getUser,
     updateUserHandler,
     deleteUserHandler,
-} from "../../controllers/userController";
+} from "../../controllers/user.controller";
 
 export default async function userRoutes(fastify: FastifyInstance) {
     fastify.get("/", getUsers);

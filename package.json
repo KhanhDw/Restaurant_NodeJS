@@ -5,7 +5,10 @@
     "scripts": {
         "dev": "nodemon",
         "start": "npx ts-node src/app.ts",
+        "prisma": "npx prisma init",
         "opendb": "npx prisma studio",
+        "migrate": "npx prisma migrate",
+        "generate": "npx prisma migrate dev --name",
         "reset_db": "npx prisma migrate reset",
         "deploy_db_product": "npx prisma migrate deploy"
     },
