@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
+        "generate-cert": "ts-node scripts/generate-cert.ts",
         "dev": "nodemon",
         "start": "npx ts-node src/app.ts",
         "prisma": "npx prisma init",
@@ -17,14 +18,22 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@fastify/cookie": "^11.0.2",
+        "@fastify/cors": "^11.0.1",
+        "@fastify/oauth2": "^8.1.2",
         "@prisma/client": "^6.10.1",
         "dotenv": "^17.0.0",
         "fastify": "^5.4.0",
         "fastify-plugin": "^5.0.1",
+        "fs": "^0.0.1-security",
+        "google-auth-library": "^10.1.0",
+        "node-forge": "^1.3.1",
+        "path": "^0.12.7",
         "prisma": "^6.10.1"
     },
     "devDependencies": {
-        "@types/node": "^24.0.6",
+        "@types/node": "^24.0.7",
+        "@types/node-forge": "^1.3.11",
         "nodemon": "^3.1.10",
         "ts-node": "^10.9.2",
         "typescript": "^5.8.3"
