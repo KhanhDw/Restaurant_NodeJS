@@ -42,5 +42,5 @@ Desktop.ini
 # OS files
 .DS_Store
 
-# credentials google auth 
-src/utils/credentials.json
+# # credentials google auth 
+# src/utils/credentials.json
