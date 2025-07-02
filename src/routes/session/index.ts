@@ -7,7 +7,7 @@ import {
 } from "../../controllers/session.controller";
 
 export default async function sessionRoutes(fastify: FastifyInstance) {
-    fastify.get("/", getSessionsHandler);
+    fastify.get("/", { preHandler: fastify.authenticate },getSessionsHandler);
     fastify.post("/", createSessionHandler);
     fastify.get("/:userId", getSessionByUserIdHandler);
     fastify.delete("/:userId", deleteSessionHandler);

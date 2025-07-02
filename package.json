@@ -2,6 +2,7 @@
     "name": "server",
     "version": "1.0.0",
     "main": "index.js",
+    "types": "fastify.d.ts",
     "scripts": {
         "generate-cert": "ts-node scripts/generate-cert.ts",
         "dev": "nodemon",
@@ -11,7 +12,8 @@
         "migrate": "npx prisma migrate",
         "generate": "npx prisma migrate dev --name",
         "reset_db": "npx prisma migrate reset",
-        "deploy_db_product": "npx prisma migrate deploy"
+        "deploy_db_product": "npx prisma migrate deploy",
+        "build": "tsc -p tsconfig.json"
     },
     "keywords": [],
     "author": "",
@@ -20,6 +22,7 @@
     "dependencies": {
         "@fastify/cookie": "^11.0.2",
         "@fastify/cors": "^11.0.1",
+        "@fastify/jwt": "^9.1.0",
         "@fastify/oauth2": "^8.1.2",
         "@prisma/client": "^6.10.1",
         "dotenv": "^17.0.0",

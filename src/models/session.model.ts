@@ -21,8 +21,8 @@ export const getSessionByUserId = (userId: number): Promise<Session | null> => {
 };
 
 // Tạo session mới
-export const createSession = (data: SessionCreateData): Promise<Session> => {
-    return prisma.session.create({
+export const createSession = async (data: SessionCreateData): Promise<Session> => {
+    return await prisma.session.create({
         data,
     });
 };

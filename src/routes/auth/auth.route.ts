@@ -17,22 +17,22 @@ export default async function authRoutes(fastify: FastifyInstance) {
         const user = await fetchGoogleUser(tokenWrapper.token.access_token);
 
         // TODO: bạn có thể lưu user vào DB, tạo session hoặc JWT ở đây
+
+        const jwt = this.jwt.sign({
+            email: user.email,
+            name: user.name,
+            picture: user.picture,
+        });
+
         // ⚠️ Nên chọn thông tin gọn nhẹ (không lưu cả access_token!)
-        reply.setCookie(
-            "user",
-            JSON.stringify({
-                email: user.email,
-                name: user.name,
-                picture: user.picture,
-            }),
-            {
-                path: "/",
-                httpOnly: true,
-                sameSite: "lax",
-                secure: true, // đổi thành true nếu bạn dùng HTTPS
-                maxAge: 3600 * 24 * 30, // 1 tháng
-            }
-        );
+
+        reply.setCookie("tokenJWT", jwt, {
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax",
+            secure: true, // đổi thành true nếu bạn dùng HTTPS
+            maxAge: 3600 * 24 * 30, // 1 tháng
+        });
 
         return reply.redirect("/auth/me");
         // return reply.send({ message: "Logged in", user });
@@ -40,17 +40,23 @@ export default async function authRoutes(fastify: FastifyInstance) {
     });
 
     fastify.get("/me", async function (request, reply) {
-        const userCookie = request.cookies.user;
-
-        if (!userCookie) {
-            return reply.code(401).send({ error: "Chưa đăng nhập" });
-        }
-
         try {
-            const user = JSON.parse(userCookie);
-            return reply.send({ loggedIn: true, user });
-        } catch(err) {
-            return reply.code(400).send({ error: "Cookie lỗi"+err });
+            const user = await request.jwtVerify(); // Đọc từ cookie "tokenJWT"
+            return reply.send({ user });
+        } catch (err) {
+            return reply.code(401).send({ error: "Unauthorized:"+err });
         }
+    });
+
+    fastify.get("/logout", async function (request, reply) {
+        // Xoá cookie user
+        reply.clearCookie("tokenJWT", {
+            path: "/",
+            httpOnly: true,
+            sameSite: "lax",
+            secure: true, // đổi thành true nếu bạn dùng HTTPS
+        });
+
+        return reply.redirect("/users");
     });
 }
